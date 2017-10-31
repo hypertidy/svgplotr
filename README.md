@@ -29,8 +29,8 @@ ggmin_theme <- function ()
 ggfig <- function (dat)
 {
     ggplot () + ggmin_theme () +
-        geom_segment (aes (x = xfr, y = yfr, xend = xto, yend = yto,
-                       colour = col, size = lwd), size = dat$lwd / 8, data = dat)
+        geom_segment (aes (x = xfr, y = yfr, xend = xto, yend = yto, size = lwd),
+                      col = dat$col, size = dat$lwd / 8, data = dat)
 }
 ```
 
@@ -43,18 +43,13 @@ ggfig (dat)
 
 ![](README-fig-1.png)
 
-The equivalent output of `svgplotr` can be viewed as a `.png` file through using the `rsvg` package:
+The equivalent output of `svgplotr` can be directly viewed as a `.html`, or a `.svg` file can be converted to any other format using the `rsvg` package:
 
 ``` r
-svgplot (dat, file = "junk", html = FALSE)
+svgplot (dat, file = "junk", html = FALSE) # makes junk.svg
 require (rsvg)
-#> Loading required package: rsvg
 png::writePNG (rsvg ("junk.svg"), "junk.png")
 ```
-
-<img src="junk.png" width="75%" />
-
-The colours of the latter figure are as coded by `svgplotr`, becoming more red towards the right, more green towards the top, and more blue with distance from the centre of the figure. The `ggplot` colours do not capture this pattern very well at all.
 
 Timing Comparison
 -----------------
