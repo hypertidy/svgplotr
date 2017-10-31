@@ -1,6 +1,6 @@
-#' svgplot
+#' svgplot_edges
 #'
-#' Plot data as \code{html}-formatted \code{svg} file.
+#' Plot edge data as \code{html}-formatted \code{svg} file.
 #'
 #' @param dat A test \code{data.frame} from \link{getdat}
 #' @param filename Name of \code{html} file to write \code{svg} data
@@ -8,7 +8,7 @@
 #' straight \code{svg}.
 #' @return Nothing
 #' @export
-svgplot <- function (dat, filename, html = TRUE)
+svgplot_edges <- function (dat, filename, html = TRUE)
 {
     filename <- tools::file_path_sans_ext (filename)
     if (html)
@@ -21,5 +21,5 @@ svgplot <- function (dat, filename, html = TRUE)
     dat$yfr <- ymax - dat$yfr
     dat$yto <- ymax - dat$yto
 
-    rcpp_svgplot (dat, filename, html)
+    rcpp_svgplot_edges (dat, filename, html)
 }

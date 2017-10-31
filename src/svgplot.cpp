@@ -3,7 +3,7 @@
 //' rcpp_svgplot
 //' @noRd
 // [[Rcpp::export]]
-void rcpp_svgplot (Rcpp::DataFrame dat, std::string filename, bool html)
+void rcpp_svgplot_edges (Rcpp::DataFrame dat, std::string filename, bool html)
 {
     Rcpp::NumericVector xfr = dat ["xfr"];
     Rcpp::NumericVector yfr = dat ["yfr"];

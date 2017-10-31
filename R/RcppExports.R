@@ -3,7 +3,7 @@
 
 #' rcpp_svgplot
 #' @noRd
-rcpp_svgplot <- function(dat, filename, html) {
-    invisible(.Call(`_svgplotr_rcpp_svgplot`, dat, filename, html))
+rcpp_svgplot_edges <- function(dat, filename, html) {
+    invisible(.Call(`_svgplotr_rcpp_svgplot_edges`, dat, filename, html))
 }
 
