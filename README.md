@@ -46,10 +46,11 @@ ggfig (dat)
 Timing Comparison
 -----------------
 
-`svgplotr` is considerably faster than `svglite`, but speed differences depend on numbers of lines (`n` in `getdat()`). The following code returns quantifies the time taken by `svglite` in comparison to `svgplotr` as a function of `n`.
+`svgplotr` is considerably faster than `svglite`, but speed differences depend on numbers of edges plotted. The following code quantifies the time taken by `svglite` in comparison to `svgplotr` as a function of `n`.
 
 ``` r
 require (svglite)
+require (rbenchmark)
 plotgg <- function (fig)
 {
     svglite ("lines.svg")
@@ -61,11 +62,11 @@ do1test <- function (n = 1e3, nreps = 5)
 {
     dat <- getdat (n = n)
     fig <- ggfig (dat)
-    rbenchmark::benchmark (
-                           plotgg (fig),
-                           svgplot (dat, filename = "lines"),
-                           order = "test",
-                           replications = nreps)$relative [1]
+    benchmark (
+               plotgg (fig),
+               svgplot (dat, filename = "lines"),
+               order = "test",
+               replications = nreps)$relative [1]
 }
 
 n <- 10 ^ (20:60 / 10)
@@ -79,8 +80,7 @@ dat <- data.frame (n = n, y = y)
 ggplot (dat, aes (x = n, y = y)) +
     theme (panel.grid.minor = element_blank ()) +
     scale_x_log10 (breaks = 10 ^ (2:6)) +
-    scale_y_log10 (limits = c (1, max (y)),
-                   breaks = c (1:5, 10, 50, 100)) +
+    scale_y_log10 (limits = c (1, max (y)), breaks = c (1:5, 10, 50, 100)) +
     geom_point () +
     geom_smooth (method = "loess", se = TRUE) +
     ylab ("time (svgplotr) / time (svglite)") +
