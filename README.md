@@ -30,18 +30,32 @@ ggfig <- function (dat)
 {
     ggplot () + ggmin_theme () +
         geom_segment (aes (x = xfr, y = yfr, xend = xto, yend = yto,
-                       colour = col, size = lwd), size = dat$lwd, data = dat)
+                       colour = col, size = lwd), size = dat$lwd / 8, data = dat)
 }
 ```
 
-One set of random lines can then be generated and plotted like this:
+One set of random lines can then be generated and plotted via `ggplot2` like this:
 
 ``` r
-dat <- getdat (n = 1e4, xylim = 1000)
+dat <- getdat (n = 1e5, xylim = 1000)
 ggfig (dat)
 ```
 
 ![](README-fig-1.png)
+
+The equivalent output of `svgplotr` can be viewed as a `.png` file through using the `rsvg` package:
+
+``` r
+svgplot (dat, file = "junk", html = FALSE)
+require (rsvg)
+#> Loading required package: rsvg
+bitmap <- rsvg ("junk.svg")
+png::writePNG (bitmap, "junk.png")
+```
+
+<img src="junk.png" width="75%" />
+
+The colours of the latter figure are as coded by `svgplotr`, becoming more red towards the right, more green towards the top, and more blue with distance from the centre of the figure. The `ggplot` colours do not capture this pattern very well at all.
 
 Timing Comparison
 -----------------
