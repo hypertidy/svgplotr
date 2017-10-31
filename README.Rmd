@@ -64,8 +64,7 @@ the `rsvg` package:
 ```{r rsvg}
 svgplot (dat, file = "junk", html = FALSE)
 require (rsvg)
-bitmap <- rsvg ("junk.svg")
-png::writePNG (bitmap, "junk.png")
+png::writePNG (rsvg ("junk.svg"), "junk.png")
 ```
 ```{r imagemagick, echo = FALSE}
 system2 ("convert", c ("junk.png", "-resize 1000x700!", "junk.png"))

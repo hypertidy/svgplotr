@@ -49,8 +49,7 @@ The equivalent output of `svgplotr` can be viewed as a `.png` file through using
 svgplot (dat, file = "junk", html = FALSE)
 require (rsvg)
 #> Loading required package: rsvg
-bitmap <- rsvg ("junk.svg")
-png::writePNG (bitmap, "junk.png")
+png::writePNG (rsvg ("junk.svg"), "junk.png")
 ```
 
 <img src="junk.png" width="75%" />
