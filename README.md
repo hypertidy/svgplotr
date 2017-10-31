@@ -4,10 +4,12 @@
 svgplotr
 ========
 
-Fast `svg` plots in **R**. Currently just a demonstration of speed relative to [`svglite`](https://github.com/r-lib/svglite) based on two functions:
+Fast `svg` plots in **R**. Currently just a demonstration of speed relative to [`svglite`](https://github.com/r-lib/svglite) based on four functions:
 
-1.  `getdat(n)` which generates a series of `n` random edges tracing a single path with varying colours and line widths; and
-2.  `svgplot()` to write those data to a `html`-formatted `svg` file.
+1.  `getlines(n)` which generates a series of `n` random edges tracing a single path with varying colours and line widths;
+2.  `getpoints(n)` which generates `n` random points with varying colours;
+3.  `svgplot_lines()` to write line data to a `html`-formatted `svg` file.
+4.  `svgplot_points()` to write point data to a `html`-formatted `svg` file.
 
 Comparison is against a `ggplot2` object with no embellishments, set up with the following code
 
@@ -26,19 +28,24 @@ ggmin_theme <- function ()
     theme$axis.ticks.length <- unit (0, 'null')
     return (theme)
 }
-ggfig <- function (dat)
+ggline <- function (dat)
 {
     ggplot () + ggmin_theme () +
         geom_segment (aes (x = xfr, y = yfr, xend = xto, yend = yto, size = lwd),
                       col = dat$col, size = dat$lwd / 8, data = dat)
+}
+ggpoint <- function (dat)
+{
+    ggplot () + ggmin_theme () +
+        geom_point (aes (x = x, y = y), col = dat$col, data = dat)
 }
 ```
 
 One set of random lines can then be generated and plotted via `ggplot2` like this:
 
 ``` r
-dat <- getdat (n = 1e5, xylim = 1000)
-ggfig (dat)
+dat <- getlines (n = 1e5, xylim = 1000)
+ggline (dat)
 ```
 
 ![](README-fig-1.png)
@@ -46,7 +53,7 @@ ggfig (dat)
 The equivalent output of `svgplotr` can be directly viewed as a `.html`, or a `.svg` file can be converted to any other format using the `rsvg` package:
 
 ``` r
-svgplot (dat, file = "junk", html = FALSE) # makes junk.svg
+svgplot_lines (dat, file = "junk", html = FALSE) # makes junk.svg
 require (rsvg)
 png::writePNG (rsvg ("junk.svg"), "junk.png")
 ```
@@ -54,7 +61,7 @@ png::writePNG (rsvg ("junk.svg"), "junk.png")
 Timing Comparison
 -----------------
 
-`svgplotr` is considerably faster than `svglite`, but speed differences depend on numbers of edges plotted. The following code quantifies the time taken by `svglite` in comparison to `svgplotr` as a function of `n`.
+`svgplotr` is considerably faster than `svglite`, but speed differences depend on numbers of edges plotted. The following code quantifies the time taken to plot lines by `svglite` in comparison to `svgplotr` as a function of `n`.
 
 ``` r
 require (svglite)
@@ -68,11 +75,11 @@ plotgg <- function (fig)
 
 do1test <- function (n = 1e3, nreps = 5)
 {
-    dat <- getdat (n = n)
-    fig <- ggfig (dat)
+    dat <- getlines (n = n)
+    fig <- ggline (dat)
     benchmark (
                plotgg (fig),
-               svgplot (dat, filename = "lines"),
+               svgplot_lines (dat, filename = "lines"),
                order = "test",
                replications = nreps)$relative [1]
 }
