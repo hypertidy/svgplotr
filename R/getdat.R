@@ -1,11 +1,11 @@
-#' getdat
+#' getlines
 #'
 #' Make a single trail from a bunch of random connected edges
 #' @param n Number of edges
 #' @param xylim Maximal x and y values 
 #' @return A \code{data.frame} of randomly wandering edges
 #' @export
-getdat <- function (n = 1e3, xylim = 1000)
+getlines <- function (n = 1e3, xylim = 1000)
 {
     xfr <- yfr <- xto <- yto <- rep (NA, n)
     xy <- ceiling (runif (2) * xylim)
@@ -38,5 +38,27 @@ getdat <- function (n = 1e3, xylim = 1000)
     col <- rgb (xfr / xylim, yfr / xylim, blu)
 
     data.frame (xfr = xfr, yfr = yfr, xto = xto, yto = yto,
-                col = col, lwd = blu * 2)
+                col = col, lwd = blu * 2,
+                stringsAsFactors = FALSE)
+}
+
+#' getpoints
+#'
+#' Get a bunch of random points along with colour attributes
+#' @param n Number of points
+#' @param xylim Maximal x and y values 
+#' @return A \code{data.frame} of random points
+#' @export
+getpoints <- function (n = 1e3, xylim = 1000)
+{
+    x <- ceiling (runif (n) * xylim)
+    y <- ceiling (runif (n) * xylim)
+
+    # scale red to x, green to y, and blue to this:
+    blu <- sqrt ( ( (x - xylim / 2) / xylim) ^ 2 +
+                 ( (y - xylim / 2) / xylim) ^ 2) / sqrt (0.5)
+    col <- rgb (x / xylim, y / xylim, blu)
+
+    data.frame (x = x, y = y, col = col,
+                stringsAsFactors = FALSE)
 }

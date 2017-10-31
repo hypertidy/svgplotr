@@ -1,6 +1,6 @@
 #include "svgplot.h"
 
-//' rcpp_svgplot
+//' rcpp_svgplot_edges
 //' @noRd
 // [[Rcpp::export]]
 void rcpp_svgplot_edges (Rcpp::DataFrame dat, std::string filename, bool html)
@@ -58,6 +58,46 @@ void rcpp_svgplot_edges (Rcpp::DataFrame dat, std::string filename, bool html)
         out_file << prefx << " " << xto [i] << " " << yto [i] <<
             "\" stroke=\"" << col [i] << "\" stroke-width=\"" <<
             lwd [i] << "\"/>\n";
+    }
+
+    out_file << "      </g>\n    </svg>\n";
+    if (html)
+        out_file << "  </body>\n</html>\n";
+    out_file.close ();
+}
+
+//' rcpp_svgplot_points
+//' @noRd
+// [[Rcpp::export]]
+void rcpp_svgplot_points (Rcpp::DataFrame dat, std::string filename, bool html)
+{
+    Rcpp::NumericVector x = dat ["x"];
+    Rcpp::NumericVector y = dat ["y"];
+    Rcpp::StringVector col = dat ["col"];
+
+    int size_x = static_cast <int> (Rcpp::max (x)),
+        size_y = static_cast <int> (Rcpp::max (y));
+
+    std::ofstream out_file;
+    out_file.open (filename.c_str (), std::ofstream::out);
+    if (html)
+    {
+        out_file << "<!doctype html> <html>\n" <<
+            "<head>\n  <body>\n";
+    }
+    out_file << "    <svg xmlns=\"http://www.w3.org/2000/svg\" " <<
+        "version=\"1.1\" overflow=\"visible\" width=\"" << size_x << 
+        "\" height=\"" << size_y << "\" " << "viewBox=\"0 0 " <<
+        size_x << " " << size_y << "\">\n      <g class=\"circle\">\n";
+
+    // Plot each edge as a separate path rather than using compound paths.
+    // This is easier, and apparently doesn't make any difference to rendering
+    // speed.
+    for (unsigned int i = 0; i < x.size (); i++)
+    {
+        out_file << "        <circle cx=\"" << x [i] << "\" cy=\"" <<
+            y [i] << "\" r = \"2\" fill=\"transparent\" stroke=\"" <<
+            col [i] << "\" stroke-width=\"1\"/>\n";
     }
 
     out_file << "      </g>\n    </svg>\n";

@@ -17,3 +17,15 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// rcpp_svgplot_points
+void rcpp_svgplot_points(Rcpp::DataFrame dat, std::string filename, bool html);
+RcppExport SEXP _svgplotr_rcpp_svgplot_points(SEXP datSEXP, SEXP filenameSEXP, SEXP htmlSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type dat(datSEXP);
+    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
+    Rcpp::traits::input_parameter< bool >::type html(htmlSEXP);
+    rcpp_svgplot_points(dat, filename, html);
+    return R_NilValue;
+END_RCPP
+}
