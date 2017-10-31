@@ -8,10 +8,10 @@
 */
 
 /* .Call calls */
-extern SEXP _svgplotr_rcpp_svgplot(SEXP, SEXP);
+extern SEXP _svgplotr_rcpp_svgplot(SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_svgplotr_rcpp_svgplot", (DL_FUNC) &_svgplotr_rcpp_svgplot, 2},
+    {"_svgplotr_rcpp_svgplot", (DL_FUNC) &_svgplotr_rcpp_svgplot, 3},
     {NULL, NULL, 0}
 };
 

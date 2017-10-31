@@ -4,16 +4,22 @@
 #'
 #' @param dat A test \code{data.frame} from \link{getdat}
 #' @param filename Name of \code{html} file to write \code{svg} data
+#' @param html If \code{TRUE}, produce file in \code{html} format; otherwise
+#' straight \code{svg}.
 #' @return Nothing
 #' @export
-svgplot <- function (dat, filename)
+svgplot <- function (dat, filename, html = TRUE)
 {
-    filename <- paste0 (tools::file_path_sans_ext (filename), ".html")
+    filename <- tools::file_path_sans_ext (filename)
+    if (html)
+        filename <- paste0 (filename, ".html")
+    else
+        filename <- paste0 (filename, ".svg")
 
     # svg plots have inverted y-axes:
     ymax <- max (c (dat$yfr, dat$yto))
     dat$yfr <- ymax - dat$yfr
     dat$yto <- ymax - dat$yto
 
-    rcpp_svgplot (dat, filename)
+    rcpp_svgplot (dat, filename, html)
 }

@@ -6,13 +6,14 @@
 using namespace Rcpp;
 
 // rcpp_svgplot
-void rcpp_svgplot(Rcpp::DataFrame dat, std::string filename);
-RcppExport SEXP _svgplotr_rcpp_svgplot(SEXP datSEXP, SEXP filenameSEXP) {
+void rcpp_svgplot(Rcpp::DataFrame dat, std::string filename, bool html);
+RcppExport SEXP _svgplotr_rcpp_svgplot(SEXP datSEXP, SEXP filenameSEXP, SEXP htmlSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::DataFrame >::type dat(datSEXP);
     Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
-    rcpp_svgplot(dat, filename);
+    Rcpp::traits::input_parameter< bool >::type html(htmlSEXP);
+    rcpp_svgplot(dat, filename, html);
     return R_NilValue;
 END_RCPP
 }

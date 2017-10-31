@@ -3,7 +3,7 @@
 //' rcpp_svgplot
 //' @noRd
 // [[Rcpp::export]]
-void rcpp_svgplot (Rcpp::DataFrame dat, std::string filename)
+void rcpp_svgplot (Rcpp::DataFrame dat, std::string filename, bool html)
 {
     Rcpp::NumericVector xfr = dat ["xfr"];
     Rcpp::NumericVector yfr = dat ["yfr"];
@@ -32,14 +32,15 @@ void rcpp_svgplot (Rcpp::DataFrame dat, std::string filename)
 
     std::ofstream out_file;
     out_file.open (filename.c_str (), std::ofstream::out);
-    out_file << "<!doctype html> <html>\n" <<
-        "<head>" <<
-        "<link rel=\"stylesheet\" href=\"style.css\", " <<
-        "type = \"text/css\">  </head>\n  <body>\n" <<
-        "    <svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"" <<
-        "overflow=\"visible\" width=\"" << size_x << "\" height=\"" <<
-        size_y << "\" " << "viewBox=\"0 0 " << size_x << " " << size_y <<
-        "\">\n      <g class=\"line\">\n";
+    if (html)
+    {
+        out_file << "<!doctype html> <html>\n" <<
+            "<head>\n  <body>\n";
+    }
+    out_file << "    <svg xmlns=\"http://www.w3.org/2000/svg\" " <<
+        "version=\"1.1\" overflow=\"visible\" width=\"" << size_x << 
+        "\" height=\"" << size_y << "\" " << "viewBox=\"0 0 " <<
+        size_x << " " << size_y << "\">\n      <g class=\"line\">\n";
 
     for (unsigned int i = 0; i < xfr.size (); i++)
     {
@@ -56,6 +57,8 @@ void rcpp_svgplot (Rcpp::DataFrame dat, std::string filename)
             lwd [i] << "\"/>\n";
     }
 
-    out_file << "      </g>\n    </svg>\n  </body>\n</html>\n";
+    out_file << "      </g>\n    </svg>\n";
+    if (html)
+        out_file << "  </body>\n</html>\n";
     out_file.close ();
 }

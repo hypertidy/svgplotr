@@ -4,12 +4,15 @@
 \alias{svgplot}
 \title{svgplot}
 \usage{
-svgplot(dat, filename)
+svgplot(dat, filename, html = TRUE)
 }
 \arguments{
 \item{dat}{A test \code{data.frame} from \link{getdat}}
 
 \item{filename}{Name of \code{html} file to write \code{svg} data}
+
+\item{html}{If \code{TRUE}, produce file in \code{html} format; otherwise
+straight \code{svg}.}
 }
 \value{
 Nothing
