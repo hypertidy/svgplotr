@@ -74,9 +74,6 @@ plot (n, y, log = "xy", main = "relative performance of svgplotr vs svglite")
 lines (n, y, col = "gray")
 ```
 
-![](README-plot-timings-1.png) And efficiency gains will at some stage be lost, but for up to around 10,000 edges, `svgplotr` generally remains an order of magnitude faster than `svglite`.
+![](README-plot-timings-1.png)
 
-    #> Warning in file.remove(c("lines.html", "lines.svg")): cannot remove file
-    #> 'lines.html', reason 'No such file or directory'
-    #> Warning in file.remove(c("lines.html", "lines.svg")): cannot remove file
-    #> 'lines.svg', reason 'No such file or directory'
+And efficiency gains will at some stage be lost, but for up to around 10,000 edges, `svgplotr` generally remains an order of magnitude faster than `svglite`. This figure is nevertheless logarithically scaled, indicating that efficiency gains decrease exponentially with increasing size, so maybe it's not worth it after all?
