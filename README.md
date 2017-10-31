@@ -38,9 +38,10 @@ print (fig)
 Timing Comparison
 -----------------
 
+Differences in timing depend on the scale of figures
+
 ``` r
 require (svglite)
-#> Loading required package: svglite
 plotgg <- function (fig)
 {
     svglite ("lines.svg")
@@ -48,13 +49,34 @@ plotgg <- function (fig)
     graphics.off ()
 }
 
-rbenchmark::benchmark (
-                       plotgg (fig),
-                       svgplot (dat, filename = "lines"),
-                       replications = 5) [, 1:5]
-#>                               test replications elapsed relative user.self
-#> 1                      plotgg(fig)            5   0.908     7.63     0.856
-#> 2 svgplot(dat, filename = "lines")            5   0.119     1.00     0.112
+do1test <- function (n = 1e3, nreps = 5)
+{
+    dat <- getdat (n = n)
+    fig <- ggplot () + ggmin_theme () +
+        geom_segment (aes (x = xfr, y = yfr, xend = xto, yend = yto,
+                           colour = col, size = lwd),
+                      size = dat$lwd, data = dat)
+    rbenchmark::benchmark (
+                           plotgg (fig),
+                           svgplot (dat, filename = "lines"),
+                           order = "test",
+                           replications = nreps)$relative [1]
+}
+
+n <- 10 ^ (20:50 / 10)
+y <- sapply (n, do1test)
 ```
 
-And `svgplotr` is close to an order of magnitude faster than `svglite`.
+Then plot the results
+
+``` r
+plot (n, y, log = "xy", main = "relative performance of svgplotr vs svglite")
+lines (n, y, col = "gray")
+```
+
+![](README-plot-timings-1.png) And efficiency gains will at some stage be lost, but for up to around 10,000 edges, `svgplotr` generally remains an order of magnitude faster than `svglite`.
+
+    #> Warning in file.remove(c("lines.html", "lines.svg")): cannot remove file
+    #> 'lines.html', reason 'No such file or directory'
+    #> Warning in file.remove(c("lines.html", "lines.svg")): cannot remove file
+    #> 'lines.svg', reason 'No such file or directory'

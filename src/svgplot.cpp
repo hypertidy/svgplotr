@@ -13,7 +13,22 @@ void rcpp_svgplot (Rcpp::DataFrame dat, std::string filename)
     Rcpp::NumericVector lwd = dat ["lwd"];
 
     int size_x = static_cast <int> (Rcpp::max (xfr)),
-        size_y = static_cast <int> (Rcpp::max (yfr));
+        size_y = static_cast <int> (Rcpp::max (yfr)),
+        size_xt = static_cast <int> (Rcpp::max (xto)),
+        size_yt = static_cast <int> (Rcpp::max (yto));
+    if (size_xt > size_x)
+        size_x = size_xt;
+    if (size_yt > size_y)
+        size_y = size_yt;
+
+    // svg plots have inverted y-axes
+    /*
+    Rcpp::Rcout << "size_y = " << size_y << "; [1] = " <<
+        yfr [0];
+    yfr = size_y - yfr;
+    yto = size_y - yto;
+    Rcpp::Rcout << " -> " << yfr [0] << std::endl;
+    */
 
     std::ofstream out_file;
     out_file.open (filename.c_str (), std::ofstream::out);
