@@ -2,7 +2,7 @@
 
 export(getlines)
 export(getpoints)
-export(svgplot_edges)
+export(svgplot_lines)
 export(svgplot_points)
 importFrom(Rcpp,evalCpp)
 importFrom(grDevices,rgb)

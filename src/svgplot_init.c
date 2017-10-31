@@ -8,11 +8,11 @@
 */
 
 /* .Call calls */
-extern SEXP _svgplotr_rcpp_svgplot_edges(SEXP, SEXP, SEXP);
+extern SEXP _svgplotr_rcpp_svgplot_lines(SEXP, SEXP, SEXP);
 extern SEXP _svgplotr_rcpp_svgplot_points(SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_svgplotr_rcpp_svgplot_edges",  (DL_FUNC) &_svgplotr_rcpp_svgplot_edges,  3},
+    {"_svgplotr_rcpp_svgplot_lines",  (DL_FUNC) &_svgplotr_rcpp_svgplot_lines,  3},
     {"_svgplotr_rcpp_svgplot_points", (DL_FUNC) &_svgplotr_rcpp_svgplot_points, 3},
     {NULL, NULL, 0}
 };
