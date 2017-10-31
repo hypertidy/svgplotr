@@ -90,4 +90,13 @@ ggplot (dat, aes (x = n, y = y)) +
 
 ![](README-plot-timings-1.png)
 
-And efficiency gains initially decrease exponentially, but then flatten out and appear to approach an asymptotic limit of around three times faster. Even for the maximum size in this plot of 1 million edges, `svgplotr` is almost 4 times faster than `svglite`.
+And efficiency gains initially decrease exponentially, but then flatten out and appear to approach an asymptotic limit of around three times faster. Even for the maximum size in this plot of 1 million edges, `svgplotr` is almost 4 times faster than `svglite`. The right portion of the graph may also be a second exponential regime, but even if so, parity is only going to be reached at:
+
+``` r
+indx <- which (n >= 1e5)
+mod <- as.numeric (lm (log10 (y [indx]) ~ log10 (n [indx]))$coefficients)
+format (10 ^ (mod [1] / abs (mod [2])), scientific = TRUE, digits = 2)
+#> [1] "1.3e+11"
+```
+
+which is 130 billion edges. Parity is not really going to happen, and `svgplotr` will always remain faster than `svglite`.
