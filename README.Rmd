@@ -1,12 +1,31 @@
+---
+output: github_document
+---
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Build Status](https://travis-ci.org/mpadge/svgplotr.svg)](https://travis-ci.org/mpadge/svgplotr) [![Project Status: Concept - Minimal or no implementation has been done yet.](http://www.repostatus.org/badges/0.1.0/concept.svg)](http://www.repostatus.org/#concept)
 
-svgplotr
-========
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
 
-Fast `svg` plots in **R**. Currently just a demonstration of speed relative to [`svglite`](https://github.com/r-lib/svglite). The function `getdat()` generates a series of random edges with varying colours and line widths to be plotted. Comparison is against a `ggplot2` object with no embellishments, set up with the following code
+[![Build Status](https://travis-ci.org/mpadge/svgplotr.svg)](https://travis-ci.org/mpadge/svgplotr) 
+[![Project Status: Concept - Minimal or no implementation has been done yet.](http://www.repostatus.org/badges/0.1.0/concept.svg)](http://www.repostatus.org/#concept)
 
-``` r
+# svgplotr
+
+Fast `svg` plots in **R**. Currently just a demonstration of speed relative to
+[`svglite`](https://github.com/r-lib/svglite). The function `getdat()` generates
+a series of random edges with varying colours and line widths to be plotted.
+Comparison is against a `ggplot2` object with no embellishments, set up with the
+following code
+```{r load, echo = FALSE, message = FALSE}
+devtools::load_all (".", export_all = FALSE)
+```
+```{r ggplot-setup, message = FALSE}
 require (ggplot2)
 ggmin_theme <- function ()
 {
@@ -22,10 +41,8 @@ ggmin_theme <- function ()
     return (theme)
 }
 ```
-
 One set of random lines can then be generated and plotted like this:
-
-``` r
+```{r fig}
 dat <- getdat (n = 1e4, xylim = 1000)
 fig <- ggplot () + ggmin_theme () +
     geom_segment (aes (x = xfr, y = yfr, xend = xto, yend = yto,
@@ -33,14 +50,10 @@ fig <- ggplot () + ggmin_theme () +
 print (fig)
 ```
 
-![](README-fig-1.png)
+## Timing Comparison
 
-Timing Comparison
------------------
-
-``` r
+```{r timing}
 require (svglite)
-#> Loading required package: svglite
 plotgg <- function (fig)
 {
     svglite ("lines.svg")
@@ -52,9 +65,8 @@ rbenchmark::benchmark (
                        plotgg (fig),
                        svgplot (dat, filename = "lines"),
                        replications = 5) [, 1:5]
-#>                               test replications elapsed relative user.self
-#> 1                      plotgg(fig)            5   0.941    7.908     0.860
-#> 2 svgplot(dat, filename = "lines")            5   0.119    1.000     0.112
 ```
-
 And `svgplotr` is close to an order of magnitude faster than `svglite`.
+```{r cleanup, echo = FALSE}
+junk <- file.remove (c ("lines.html", "lines.svg"))
+```
