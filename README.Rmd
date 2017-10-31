@@ -138,7 +138,7 @@ save (dat, file = "timing-results.rda")
 load ("timing-results.rda")
 ```
 Then plot the results
-```{r}
+```{r plot-timings}
 dat <- tidyr::gather (dat, key = "n")
 names (dat) <- c ("n", "type", "y")
 ggplot (dat, aes (x = n, y = y, group = type)) +

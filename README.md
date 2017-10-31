@@ -117,7 +117,7 @@ ggplot (dat, aes (x = n, y = y, group = type)) +
     labs (title = "relative performance of svgplotr vs svglite")
 ```
 
-![](README-unnamed-chunk-4-1.png)
+![](README-plot-timings-1.png)
 
 And efficiency gains initially decrease exponentially, but then flatten out and appear to approach an asymptotic limit of around three times faster. Even for the maximum size in this plot of 1 million objects, `svgplotr` is almost 4 times faster than `svglite` for lines, and 10 times faster for points. The right portion of the graph may also be a second exponential regime, but even if so, parity for lines is only going to be reached at:
 
