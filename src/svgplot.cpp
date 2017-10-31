@@ -42,9 +42,12 @@ void rcpp_svgplot (Rcpp::DataFrame dat, std::string filename, bool html)
         "\" height=\"" << size_y << "\" " << "viewBox=\"0 0 " <<
         size_x << " " << size_y << "\">\n      <g class=\"line\">\n";
 
+    // Plot each edge as a separate path rather than using compound paths.
+    // This is easier, and apparently doesn't make any difference to rendering
+    // speed.
     for (unsigned int i = 0; i < xfr.size (); i++)
     {
-        out_file << "        <path d=\"M" << xfr [i] << " " << yfr [i];
+        out_file << "        <path d=\"M" << xfr [i] << " " << yfr [i] << " ";
 
         std::string prefx = "L";
         // check whether line has wrapped around boundary:
