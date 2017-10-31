@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Build Status](https://travis-ci.org/mpadge/svgplotr.svg)](https://travis-ci.org/mpadge/svgplotr) [![Project Status: Concept - Minimal or no implementation has been done yet.](http://www.repostatus.org/badges/0.1.0/concept.svg)](http://www.repostatus.org/#concept)
+[![Build Status](https://travis-ci.org/mpadge/svgplotr.svg)](https://travis-ci.org/mpadge/svgplotr) [![codecov](https://codecov.io/gh/mpadge/svgplotr/branch/master/graph/badge.svg)](https://codecov.io/gh/mpadge/svgplotr) [![Project Status: Concept - Minimal or no implementation has been done yet.](http://www.repostatus.org/badges/0.1.0/concept.svg)](http://www.repostatus.org/#concept)
 
 svgplotr
 ========
@@ -53,8 +53,8 @@ rbenchmark::benchmark (
                        svgplot (dat, filename = "lines"),
                        replications = 5) [, 1:5]
 #>                               test replications elapsed relative user.self
-#> 1                      plotgg(fig)            5   0.941    7.908     0.860
-#> 2 svgplot(dat, filename = "lines")            5   0.119    1.000     0.112
+#> 1                      plotgg(fig)            5   0.908     7.63     0.856
+#> 2 svgplot(dat, filename = "lines")            5   0.119     1.00     0.112
 ```
 
 And `svgplotr` is close to an order of magnitude faster than `svglite`.
