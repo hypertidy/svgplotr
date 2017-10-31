@@ -3,4 +3,7 @@
 export(getdat)
 export(svgplot)
 importFrom(Rcpp,evalCpp)
+importFrom(grDevices,rgb)
+importFrom(stats,rexp)
+importFrom(stats,runif)
 useDynLib(svgplotr, .registration = TRUE)
