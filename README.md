@@ -61,7 +61,7 @@ png::writePNG (rsvg ("junk.svg"), "junk.png")
 Timing Comparison
 -----------------
 
-`svgplotr` is considerably faster than `svglite`, but speed differences depend on numbers of edges plotted. The following code quantifies the time taken to plot lines by `svglite` in comparison to `svgplotr` as a function of `n`.
+`svgplotr` is considerably faster than `svglite`, but speed differences depend on numbers of edges plotted. The following code quantifies the time taken to plot both lines and points by `svglite` in comparison to `svgplotr` as a function of `n`.
 
 ``` r
 require (svglite)
@@ -73,7 +73,7 @@ plotgg <- function (fig)
     graphics.off ()
 }
 
-do1test <- function (n = 1e3, nreps = 5)
+testlines <- function (n = 1e3, nreps = 5)
 {
     dat <- getlines (n = n)
     fig <- ggline (dat)
@@ -84,34 +84,48 @@ do1test <- function (n = 1e3, nreps = 5)
                replications = nreps)$relative [1]
 }
 
+testpoints <- function (n = 1e3, nreps = 5)
+{
+    dat <- getpoints (n = n)
+    fig <- ggpoint (dat)
+    benchmark (
+               plotgg (fig),
+               svgplot_points (dat, filename = "lines"),
+               order = "test",
+               replications = nreps)$relative [1]
+}
+
 n <- 10 ^ (20:60 / 10)
-y <- sapply (n, do1test)
+ylines <- sapply (n, testlines)
+ypoints <- sapply (n, testpoints)
+dat <- data.frame (n = n, lines = ylines, points = ypoints)
 ```
 
 Then plot the results
 
 ``` r
-dat <- data.frame (n = n, y = y)
-ggplot (dat, aes (x = n, y = y)) +
+dat <- tidyr::gather (dat, key = "n")
+names (dat) <- c ("n", "type", "y")
+ggplot (dat, aes (x = n, y = y, group = type)) +
     theme (panel.grid.minor = element_blank ()) +
     scale_x_log10 (breaks = 10 ^ (2:6)) +
-    scale_y_log10 (limits = c (1, max (y)), breaks = c (1:5, 10, 50, 100)) +
-    geom_point () +
-    geom_smooth (method = "loess", se = TRUE) +
+    scale_y_log10 (limits = c (1, max (dat$y)), breaks = c (1:5, 10, 50, 100)) +
+    scale_colour_manual (values = c ("red", "blue")) +
+    geom_point (aes (colour = type)) +
+    geom_smooth (aes (colour = type), method = "loess", se = TRUE) +
     ylab ("time (svgplotr) / time (svglite)") +
     labs (title = "relative performance of svgplotr vs svglite")
-#> Warning: Removed 2 rows containing missing values (geom_smooth).
 ```
 
-![](README-plot-timings-1.png)
+![](README-unnamed-chunk-4-1.png)
 
-And efficiency gains initially decrease exponentially, but then flatten out and appear to approach an asymptotic limit of around three times faster. Even for the maximum size in this plot of 1 million edges, `svgplotr` is almost 4 times faster than `svglite`. The right portion of the graph may also be a second exponential regime, but even if so, parity is only going to be reached at:
+And efficiency gains initially decrease exponentially, but then flatten out and appear to approach an asymptotic limit of around three times faster. Even for the maximum size in this plot of 1 million objects, `svgplotr` is almost 4 times faster than `svglite` for lines, and 10 times faster for points. The right portion of the graph may also be a second exponential regime, but even if so, parity for lines is only going to be reached at:
 
 ``` r
-indx <- which (n >= 1e5)
-mod <- as.numeric (lm (log10 (y [indx]) ~ log10 (n [indx]))$coefficients)
+indx <- which (dat$n >= 1e5 & dat$type == "lines")
+mod <- as.numeric (lm (log10 (dat$y [indx]) ~ log10 (dat$n [indx]))$coefficients)
 format (10 ^ (mod [1] / abs (mod [2])), scientific = TRUE, digits = 2)
 #> [1] "1.3e+11"
 ```
 
-which is 130 billion edges. Parity is not really going to happen, and `svgplotr` will always remain faster than `svglite`.
+which is 130 billion edges, and obviously enormously more for points. Parity is not really going to happen, and `svgplotr` will always remain faster than `svglite`.
