@@ -1,0 +1,53 @@
+<!-- github.com/zetter/voronoi-maps -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>blahde blahli</title>
+    <meta charset="utf-8">
+        <link href="base.css" rel="stylesheet" />
+        <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id='map'> </div>
+
+    <div id='selections' class="selections">
+        <a href='#' class="show">Choose what to display</a>
+        <div class='content'>
+            <a href='#' class="hide">Hide</a>
+            <div id="toggles"> </div>
+        </div>
+    </div>
+
+    <div id='loading'> </div>
+
+    <div id='selected'>
+        <h1>Leaflet d3 test</h1>
+    </div>
+
+    <div id='about'>
+        <a href='#' class="show">About</a>
+        <p class='content'>
+            Test of <a href="http://github.com/d3/d3">d3</a> svg overlay on leaflet maps.
+            <a href='#' class="hide">Hide</a>
+        </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.8/d3.min.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js"></script>
+    <script src="path_map.js"></script>
+
+    <script>
+        L.mapbox.accessToken = 'pk.eyJ1IjoiemV0dGVyIiwiYSI6ImVvQ3FGVlEifQ.jGp_PWb6xineYqezpSd7wA';
+        map = L.mapbox.map('map', 'zetter.i73ka9hn')
+        .fitBounds([[53.0 , -1.2], [52.8 , -1.0]]);
+        //.fitBounds([[59.355596 , -9.052734], [49.894634 , 3.515625]]);
+
+        url = 'data.csv';
+        //initialSelection = d3.set([d3.selectAll("name")]);
+        initialSelection = d3.set(['type1']);
+        pathMap(map, url, initialSelection);
+    </script>
+</body>
+</html>
