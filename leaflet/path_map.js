@@ -54,18 +54,28 @@ pathMap = function(map, url, initialSelections) {
             .text(function(d) { return d.type; });
     }
 
+    /* -------- NOTE ------
+     * The following are the only bits that aren't d3.v4 compatible. This means
+     * that the filtering of checked types no longer works under v4.
+     * selectedTypes just returns a boolean value instead of the previous map,
+     * so the subsequent pointsFilteredtoSelectedTypes just uses all of them.
+     * TODO: Fix this!
+     */
     var selectedTypes = function() {
-        return d3.selectAll('#toggles input[type=checkbox]')[0].filter(function(elem) {
-            return elem.checked;
-        }).map(function(elem) {
-            return elem.value;
+        //return d3.selectAll('#toggles input[type=checkbox]')[0].filter(function(elem) {
+        return d3.select('#toggles').selectAll('input[type=checkbox]')
+            .filter(function(elem) { 
+                return elem.checked;
+        //}).map(function(elem) {
+        //    return elem.value;
         })
     }
 
     var pointsFilteredToSelectedTypes = function() {
         var currentSelectedTypes = d3.set(selectedTypes());
         return points.filter(function(item){
-            return currentSelectedTypes.has(item.type);
+            //return currentSelectedTypes.has(item.type);
+            return currentSelectedTypes;
         });
     }
 
