@@ -6,6 +6,7 @@
     <meta charset="utf-8">
         <link href="base.css" rel="stylesheet" />
         <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
+        <link href='//mapbox.com/base/latest/base.css' rel='stylesheet' />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
@@ -39,10 +40,9 @@
     <script src="path_map.js"></script>
 
     <script>
-        L.mapbox.accessToken = 'pk.eyJ1IjoiemV0dGVyIiwiYSI6ImVvQ3FGVlEifQ.jGp_PWb6xineYqezpSd7wA';
-        map = L.mapbox.map('map', 'zetter.i73ka9hn')
+        L.mapbox.accessToken = 'pk.eyJ1Ijoic21leHVzIiwiYSI6ImNpamsxYmRrMjAwNHN2ZWx4emphZm8yeWYifQ.JqFg70sX3swsmhjGI_MSUg';
+        map = L.mapbox.map('map', 'mapbox.light')
         .fitBounds([[53.0 , -1.2], [52.8 , -1.0]]);
-        //.fitBounds([[59.355596 , -9.052734], [49.894634 , 3.515625]]);
 
         url = 'data.csv';
         //initialSelection = d3.set([d3.selectAll("name")]);
