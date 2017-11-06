@@ -62,20 +62,20 @@ pathMap = function(map, url, initialSelections) {
      * TODO: Fix this!
      */
     var selectedTypes = function() {
-        //return d3.selectAll('#toggles input[type=checkbox]')[0].filter(function(elem) {
-        return d3.select('#toggles').selectAll('input[type=checkbox]')
-            .filter(function(elem) { 
+        return d3.selectAll('#toggles input[type=checkbox]')[0].filter(function(elem) {
+        //return d3.select('#toggles').selectAll('input[type=checkbox]')
+        //    .filter(function(elem) { 
                 return elem.checked;
-        //}).map(function(elem) {
-        //    return elem.value;
+        }).map(function(elem) {
+            return elem.value;
         })
     }
 
     var pointsFilteredToSelectedTypes = function() {
         var currentSelectedTypes = d3.set(selectedTypes());
         return points.filter(function(item){
-            //return currentSelectedTypes.has(item.type);
-            return currentSelectedTypes;
+            return currentSelectedTypes.has(item.type);
+            //return currentSelectedTypes;
         });
     }
 
@@ -148,13 +148,16 @@ pathMap = function(map, url, initialSelections) {
 
         svgPoints.append("circle")
             .attr("transform", function(d) { return "translate(" + d.xf + "," + d.yf + ")"; })
+            //.style('opacity', 0.2)
             .style('fill', function(d) { return '#' + d.color } )
-            .attr("r", 5);
+            .attr("r", function (d) { return 2 * d.lwd })
 
+        /*
         svgPoints.append("circle")
             .attr("transform", function(d) { return "translate(" + d.xt + "," + d.yt + ")"; })
             .style('fill', function(d) { return '#' + d.color } )
             .attr("r", 5);
+        */
 
         var buildPathFromPoint = function (d) {
             return out = "M" + d.xf + " " + d.yf + "L" + d.xt + " " + d.yt;

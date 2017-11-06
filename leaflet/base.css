@@ -13,24 +13,29 @@ p {
   fill: none;
   pointer-events: all;
   stroke: #000;
-  stroke-opacity: .2;
+  stroke-opacity: 0.4;
 }
 
 .point-cell:hover, .point-cell.selected {
   fill: none;
   stroke: #000;
-  stroke-opacity: 0.6;
+  stroke-opacity: 1.0;
   stroke-width: 2px;
 }
 
 .point-cell.selected {
-  stroke-opacity: 1;
+  stroke-opacity: 0.2;
   stroke-width: 3px;
 }
 
 .point circle {
-  pointer-events: none;
+    opacity: 0.2;
+    pointer-events: none;
 }
+
+.circle {
+}
+
 
 .line line {
 }

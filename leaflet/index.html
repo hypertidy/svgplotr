@@ -35,7 +35,7 @@
         </p>
     </div>
 
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
     <!--
     <script src="https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js"></script>
     -->
@@ -45,9 +45,11 @@
     <script>
         L.mapbox.accessToken = 'pk.eyJ1Ijoic21leHVzIiwiYSI6ImNpamsxYmRrMjAwNHN2ZWx4emphZm8yeWYifQ.JqFg70sX3swsmhjGI_MSUg';
         map = L.mapbox.map('map', 'mapbox.light')
-        .fitBounds([[53.0 , -1.2], [52.8 , -1.0]]);
+        //.fitBounds([[53.0 , -1.2], [52.8 , -1.0]]);
+        .fitBounds([[50.71 , -3.51], [50.69 , -3.49]]);
 
-        url = 'data.csv';
+        //url = 'data.csv';
+        url = 'exeter-flows.csv';
         //initialSelection = d3.set([d3.selectAll("name")]);
         initialSelection = d3.set(['type1']);
         pathMap(map, url, initialSelection);
